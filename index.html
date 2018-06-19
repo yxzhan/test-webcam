@@ -36,6 +36,7 @@
     </style>
   </head>
   <body>
+        <button class="switch">On / Off</button>
     <!-- <div id="app"></div>
     <button onclick="gotoNextFrame()">Play</button>
     
@@ -69,9 +70,21 @@
             .then(function success(stream) {
                 video.srcObject = stream;
                 const track = stream.getVideoTracks()[0];
-                track.applyConstraints({
-                    advanced: [{torch: true}]
-                });
+
+//Create image capture object and get camera capabilities
+const imageCapture = new ImageCapture(track)
+const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
+
+  //todo: check if camera has a torch
+
+  //let there be light!
+  const btn = document.querySelector('.switch');
+  btn.addEventListener('click', function(){
+    track.applyConstraints({
+      advanced: [{torch: true}]
+    });
+  });
+});
             });
         document.body.appendChild(video);
     }

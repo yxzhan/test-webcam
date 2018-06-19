@@ -9,6 +9,7 @@
     <style>
         body {
             text-align: center;
+            margin: 0;
         }
         button {
             font-size: 30px;
@@ -18,23 +19,23 @@
     </style>
   </head>
   <body>
-    <div id="app"></div>
+    <!-- <div id="app"></div>
     <button onclick="gotoNextFrame()">Play</button>
     
-  </body>
+  </body> -->
   <script>
-    var socket = io('http://192.168.1.101:3000?client=mobile');
-    function gotoNextFrame() {
-        socket.emit('next-frame', { frame: 1});
-    }
+    // var socket = io('http://192.168.1.101:3000?client=mobile');
+    // function gotoNextFrame() {
+    //     socket.emit('next-frame', { frame: 1});
+    // }
     function hasGetUserMedia() {
         return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
     }
 
     if (hasGetUserMedia()) {
         var video = document.createElement('video');
-        video.style.width = document.width + 'px';
-        video.style.height = document.height + 'px';
+        video.style.width = window.innerWidth + 'px';
+        // video.style.height = window.innerHeight + 'px';
         video.setAttribute('autoplay', '');
         video.setAttribute('muted', '');
         video.setAttribute('playsinline', '');

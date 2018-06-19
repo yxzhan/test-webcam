@@ -3,18 +3,35 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
     <title>hand-shadow-client</title>
     <script src="socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style>
         body {
             text-align: center;
             margin: 0;
+            font-family: 'Avenir', Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         button {
             font-size: 30px;
             width: 100%;
             height: 200px;
+        }
+        video {
+            /* filter: contrast(500%); */
+            filter: invert(1);
+        }
+        .tips {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            top: 200px;
+            font-size: 60px;
+            color: white;
         }
     </style>
   </head>
@@ -51,9 +68,23 @@
         navigator.mediaDevices.getUserMedia(constraints)
             .then(function success(stream) {
                 video.srcObject = stream;
+                const track = stream.getVideoTracks()[0];
+                track.applyConstraints({
+                    advanced: [{torch: true}]
+                });
             });
-            document.body.appendChild(video);
+        document.body.appendChild(video);
     }
-
+    var step = 1;
+    $('body').append('<div class="tips">Step 1</div>');
+    setInterval(function () {
+        step++
+        if (step === 5) {
+            step = 0;
+            $('.tips').text('You did it!');
+        } else {
+            $('.tips').text('Step ' + step);
+        }
+    }, 5000)
   </script>
 </html>
